@@ -8,6 +8,7 @@ import {
   JobSummaryDto,
 } from '@url-checker/shared';
 import { JobsRepository } from './jobs.repository';
+import { JobWorkerService } from './job-worker.service';
 import { JobEntity, JobItemEntity } from './entities/job.entity';
 
 @Injectable()
@@ -15,6 +16,8 @@ export class JobsService {
   constructor(
     @Inject(JobsRepository)
     private readonly jobsRepository: JobsRepository,
+    @Inject(JobWorkerService)
+    private readonly jobWorkerService: JobWorkerService,
   ) {}
 
   public createJob(dto: CreateJobDto): CreateJobResponseDto {
@@ -35,6 +38,9 @@ export class JobsService {
 
     this.jobsRepository.save(newJob);
 
+    // Запускаем фоновую проверку
+    this.jobWorkerService.processJob(jobId);
+
     return { jobId };
   }
 
@@ -50,6 +56,16 @@ export class JobsService {
     }
 
     return this.mapToDetail(job);
+  }
+
+  public cancelJob(id: string): JobDetailDto {
+    const job = this.jobsRepository.findById(id);
+    if (!job) {
+      throw new NotFoundException(`Job with ID "${id}" not found`);
+    }
+
+    this.jobWorkerService.cancelJob(id);
+    return this.getJobById(id);
   }
 
   public calculateStats(urls: JobItemEntity[]): JobStats {

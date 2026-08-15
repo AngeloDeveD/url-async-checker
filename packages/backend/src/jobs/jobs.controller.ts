@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   HttpStatus,
@@ -37,5 +38,10 @@ export class JobsController {
   @Get(':id')
   getJobById(@Param('id') id: string): JobDetailDto {
     return this.jobsService.getJobById(id);
+  }
+
+  @Delete(':id')
+  cancelJob(@Param('id') id: string): JobDetailDto {
+    return this.jobsService.cancelJob(id);
   }
 }
