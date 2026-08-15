@@ -1,0 +1,22 @@
+{
+  "name": "url-checker-root",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:backend": "npm run dev --workspace=@url-checker/backend",
+    "dev:frontend": "npm run dev --workspace=@url-checker/frontend",
+    "build:shared": "npm run build --workspace=@url-checker/shared",
+    "build": "npm run build --workspaces",
+    "typecheck": "npm run typecheck --workspaces"
+  },
+  "devDependencies": {
+    "@types/node": "^26.2.0",
+    "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "@nestjs/platform-express": "^11.2.1",
+    "dotenv": "^17.4.2"
+  }
+}
