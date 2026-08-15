@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Layout } from './components/Layout';
 import { CreateJobForm } from './components/CreateJobForm';
 import { JobList } from './components/JobList';
+import { ActiveJobDetail } from './components/ActiveJobDetail';
 import { useJobsStore } from './store/useJobsStore';
 
 export const App: React.FC = () => {
@@ -31,14 +32,7 @@ export const App: React.FC = () => {
           <JobList />
         </div>
       }
-      rightColumn={
-        <div className="bg-white p-8 rounded-xl border border-slate-200 shadow-sm text-center text-slate-400 py-24">
-          <p className="text-sm font-medium text-slate-600">No Job Selected</p>
-          <p className="text-xs text-slate-400 mt-1">
-            Select a job from the history list or start a new check to view live status details.
-          </p>
-        </div>
-      }
+      rightColumn={<ActiveJobDetail />}
     />
   );
 };
