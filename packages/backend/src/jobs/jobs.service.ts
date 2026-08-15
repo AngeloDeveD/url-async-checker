@@ -1,4 +1,9 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Inject,
+  Injectable,
+  NotFoundException,
+  forwardRef,
+} from '@nestjs/common';
 import { randomUUID } from 'node:crypto';
 import {
   CreateJobDto,
@@ -16,7 +21,7 @@ export class JobsService {
   constructor(
     @Inject(JobsRepository)
     private readonly jobsRepository: JobsRepository,
-    @Inject(JobWorkerService)
+    @Inject(forwardRef(() => JobWorkerService))
     private readonly jobWorkerService: JobWorkerService,
   ) {}
 
